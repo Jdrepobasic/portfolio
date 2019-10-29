@@ -1,10 +1,9 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react'
 import baseTheme from '../common/baseTheme'
 import styled , { keyframes } from 'styled-components'
 import theme from 'styled-theming'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGithubSquare, faLinkedin, faInstagram } from '@fortawesome/free-brands-svg-icons'
-
+import { faGithubSquare, faLinkedin, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { GridBox } from '../'
 
 const navBackground = theme('mode', {
@@ -16,6 +15,20 @@ const navColor = theme('mode', {
   main: baseTheme.colors.light,
   secondary: baseTheme.colors.dark
 });
+
+const fadeOut = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+`;
 
 const Nav = styled.nav`
   background-color: ${navBackground};
@@ -56,35 +69,53 @@ const FaIcon = styled(FontAwesomeIcon)`
 const Title = styled.h1`
   color:${navColor};
   font-size: 1.2em;
+  text-align: center;
+  animation: ${fadeOut} 4s infinite;
+
 `
+const texts = ["Jonathan Dean","Developer", "Portfolio"];
 
-const TopNav = () => (
-  <Nav>
-    <GridBox>
-      <NavContainer>
-        <ul>
-          <li>
-            <a target="_blank" href="#github">
-              <FaIcon icon={faLinkedin} />
-            </a>
-          </li>
-          <li>
-            <a target="_blank" href="#github">
-              <FaIcon icon={faGithubSquare} />
-            </a>
-          </li>
-          <li>
-            <a target="_blank" href="#github">
-              <FaIcon icon={faInstagram} />
-            </a>
-          </li>
-        </ul>
+const TopNav = () => {
+  
+  const [indexText, setindexText] = useState(0);
 
-        <Title>Jonathan Dean</Title>
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setindexText(indexText => indexText + 1);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+  
+  return (
+    <Nav>
+      <GridBox>
+        <NavContainer>
+          <ul>
+            <li>
+              <a target="_blank" href="#github">
+                <FaIcon icon={faLinkedin} />
+              </a>
+            </li>
+            <li>
+              <a target="_blank" href="#github">
+                <FaIcon icon={faGithubSquare} />
+              </a>
+            </li>
+            <li>
+              <a target="_blank" href="#github">
+                <FaIcon icon={faInstagram} />
+              </a>
+            </li>
+          </ul>
 
-      </NavContainer>
-    </GridBox>
-  </Nav>
-)
+        <Title>{texts[indexText % texts.length]}</Title>
+        <button>
 
-export default TopNav
+        </button>
+        </NavContainer>
+      </GridBox>
+    </Nav>
+  )
+}
+
+export default TopNav;
