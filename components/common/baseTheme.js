@@ -8,8 +8,7 @@ const colors = {
 
 const themeName = {
   main: 'main',
-  secondary: 'secondary',
-  contrast: 'contrast'
+  secondary: 'secondary'
 }
 
 const baseTheme = {

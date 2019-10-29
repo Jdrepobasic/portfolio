@@ -2,8 +2,9 @@ import React, { useState, useEffect} from 'react'
 import baseTheme from '../common/baseTheme'
 import styled , { keyframes } from 'styled-components'
 import theme from 'styled-theming'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGithubSquare, faLinkedin, faInstagram } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faGithubSquare, faLinkedin, faInstagram } from '@fortawesome/free-brands-svg-icons'
+import { faAdjust  } from '@fortawesome/free-solid-svg-icons'
 import { GridBox } from '../'
 
 const navBackground = theme('mode', {
@@ -16,7 +17,7 @@ const navColor = theme('mode', {
   secondary: baseTheme.colors.dark
 });
 
-const fadeOut = keyframes`
+const fading = keyframes`
   0% {
     opacity: 0;
   }
@@ -39,11 +40,13 @@ const NavContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  max-height: 20px;
+  
   ul {
     list-style: none;
     display: flex;
     align-items: center;
+    width: 30%;
 
     li {
       a {
@@ -70,12 +73,23 @@ const Title = styled.h1`
   color:${navColor};
   font-size: 1.2em;
   text-align: center;
-  animation: ${fadeOut} 4s infinite;
-
+  animation: ${fading} 4s infinite;
 `
+
+const ChangeButtonContainer = styled.div`
+  width: 30%;
+  display: block;
+  height: 20px;
+
+  svg {
+    float: right;
+    cursor: pointer;
+  }
+`
+
 const texts = ["Jonathan Dean","Developer", "Portfolio"];
 
-const TopNav = () => {
+const TopNav = (props) => {
   
   const [indexText, setindexText] = useState(0);
 
@@ -107,11 +121,10 @@ const TopNav = () => {
               </a>
             </li>
           </ul>
-
-        <Title>{texts[indexText % texts.length]}</Title>
-        <button>
-
-        </button>
+          <Title>{texts[indexText % texts.length]}</Title>
+          <ChangeButtonContainer>
+            <FaIcon icon={faAdjust} onClick={props.handleTheme} />
+          </ChangeButtonContainer>
         </NavContainer>
       </GridBox>
     </Nav>
